@@ -7,7 +7,7 @@ mod commands;
 mod config;
 mod client;
 
-use commands::{InitCommand, JoinCommand, UploadCommand, DownloadCommand, ListCommand, StatusCommand, Command};
+use commands::{InitCommand, JoinCommand, UploadCommand, DownloadCommand, ListCommand, StatusCommand, EncryptCommand, DecryptCommand, Command};
 
 #[derive(Parser)]
 #[command(name = "zephyrfs")]
@@ -44,6 +44,12 @@ enum Commands {
     
     /// Show node status and network information
     Status(StatusCommand),
+    
+    /// Encrypt a file with password
+    Encrypt(EncryptCommand),
+    
+    /// Decrypt a file with password
+    Decrypt(DecryptCommand),
 }
 
 #[tokio::main]
@@ -72,5 +78,7 @@ async fn main() -> Result<()> {
         Commands::Download(cmd) => cmd.execute(&config).await,
         Commands::List(cmd) => cmd.execute(&config).await,
         Commands::Status(cmd) => cmd.execute(&config).await,
+        Commands::Encrypt(cmd) => cmd.execute(&config).await,
+        Commands::Decrypt(cmd) => cmd.execute(&config).await,
     }
 }
